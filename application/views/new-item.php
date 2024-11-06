@@ -42,7 +42,7 @@
                 <div class="input-group">
                     <input type="text" id="input-kode" name="q" class="form-control" placeholder="Masukkan kode model..." required />
                     <span class="input-group-btn">
-                        <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                        <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
                     </span>
                 </div>
             </form>
@@ -51,43 +51,47 @@
 
         <br>
 
-        <!-- Modal Add Item -->
+        <!-- Modal Add Item-->
         <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="box box-warning">
                         <div class="box-header">
                             <h3 class="box-title">New Item</h3>
-                        </div><!-- /.box-header -->
+                        </div>
                         <div class="box-body">
                             <form id="form-insert-item" role="form">
                                 <div class="form-group">
                                     <label>Kode Model</label>
-                                    <input type="text" name="kd_model" class="form-control" maxlength="4" placeholder="Kode model maksimal 4 digit ..." required />
+                                    <input type="text" name="kd_model" class="form-control" maxlength="4" placeholder="Kode model maksimal 4 digit..." required />
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Model</label>
-                                    <input type="text" name="nama_model" class="form-control" placeholder="Masukkan nama model ..." required />
+                                    <input type="text" name="nama_model" class="form-control" placeholder="Masukkan nama model..." required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Jumlah Produk</label>
+                                    <input type="number" name="jml_produk" class="form-control" placeholder="Masukkan jumlah..." required />
                                 </div>
                                 <div class="form-group">
                                     <label>Keterangan</label>
-                                    <textarea name="deskripsi" class="form-control" rows="3" placeholder="Masukkan deskripsi produk ..."></textarea>
+                                    <textarea name="deskripsi" class="form-control" rows="3" placeholder="Masukkan deskripsi produk..."></textarea>
                                 </div>
+                                <input type="hidden" name="method" value="create">
 
                                 <div class="box-footer">
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                     <button type="reset" class="btn btn-warning">Reset</button>
                                 </div>
                             </form>
-                        </div><!-- /.box-body -->
-                    </div><!-- /.box -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Ajax Tambah Item / TABEL -->
-        <div id='ajax_add_item'></div><!--/.Ajax Tambah Item -->
-
+        <div id='ajax_add_item'></div>
     </aside>
 
     <?php include 'inc/jq.php'; ?>
@@ -96,17 +100,17 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        // menampilkan semua list agenda saat pertama kali halaman utama diload
+        // Load all items on page load
         $("#ajax_add_item").load("<?php echo site_url('newitem/lihat_item_paging'); ?>");
 
-        // melakukan proses tambah item ketika tombol ditekan
+        // Add new item on form submit
         $('#form-insert-item').submit(function() {
             $.ajax({
                 type: 'POST',
-                url: "<?php echo site_url('newitem/proses_tambah_item'); ?>",
+                url: "<?php echo site_url('newitem/proses_item') ?>",
                 data: $(this).serialize(),
                 success: function(data) {
-                    $('#ajax_add_item').load("<?php echo site_url('newitem/lihat_item_paging'); ?>");
+                    $('#ajax_add_item').load("<?php echo site_url('newitem/lihat_item_paging') ?>");
                     $('.bs-example-modal-sm').modal('hide');
                     $("#form-insert-item")[0].reset();
                     alert('success');
@@ -118,7 +122,42 @@
             return false;
         });
 
-        // melakukan proses pencarian ketika mengetikkan nama agenda
+        // Reset form when modal is hidden
+        $('.bs-example-modal-sm').on('hidden.bs.modal', function() {
+            $(".bs-example-modal-sm input[name='method']").val("create");
+            $(".bs-example-modal-sm input[name='kd_model']").attr("readonly", true);
+            $("#form-insert-item")[0].reset();
+            $(".bs-example-modal-sm input[name='kd_model']").val(null).attr("readonly", false);
+            $(".bs-example-modal-sm textarea[name='deskripsi']").html(null);
+        });
+
+        // Edit item
+        $("#ajax_add_item").on("click", ".btn-edit", function() {
+            const kode = $(this).attr("data-kode");
+            $.ajax({
+                type: 'POST',
+                url: "<?php echo site_url('newitem/show_item') ?>",
+                data: {
+                    kode: kode
+                },
+                dataType: 'JSON',
+                success: function(data) {
+                    if (data.item) {
+                        $(".bs-example-modal-sm input[name='kd_model']").val(data.item.kd_model).attr("readonly", true);
+                        $(".bs-example-modal-sm input[name='nama_model']").val(data.item.nama_model);
+                        $(".bs-example-modal-sm input[name='jml_produk']").val(data.item.jml_produk);
+                        $(".bs-example-modal-sm textarea[name='deskripsi']").html(data.item.deskripsi);
+                        $('.bs-example-modal-sm').modal('show');
+                        $(".bs-example-modal-sm input[name='method']").val("edit");
+                    }
+                },
+                error: function(data) {
+                    alert("error");
+                }
+            });
+        });
+
+        // Search for items by code
         $('#input-kode').keyup(function() {
             var kd_model = $('#input-kode').val();
             $.ajax({
@@ -130,8 +169,7 @@
                 }
             });
         });
-
-    }); // EO Javascript
+    });
 </script>
 
 </html>

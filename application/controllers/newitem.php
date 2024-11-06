@@ -63,12 +63,14 @@ class Newitem extends CI_Controller
         if ($method == 'create') {
             $data['kd_model'] = $this->input->post('kd_model');
             $data['nama_model'] = $this->input->post('nama_model');
+            $data['jml_produk'] = $this->input->post('jml_produk');
             $data['deskripsi'] = $this->input->post('deskripsi');
             $kd_model = $this->item_model->insert_item($data);
             $data['kd_model'] = $kd_model;
             $item = $data;
         } else {
             $data['nama_model'] = $this->input->post('nama_model');
+            $data['jml_produk'] = $this->input->post('jml_produk');
             $data['deskripsi'] = $this->input->post('deskripsi');
             $kd_model = $this->input->post('kd_model');
             $this->item_model->update_item($kd_model, $data);

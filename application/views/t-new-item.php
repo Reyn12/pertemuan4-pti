@@ -9,6 +9,7 @@
                         <th>No.</th>
                         <th>Kode Model</th>
                         <th>Nama Model</th>
+                        <th>Jml Produk</th>
                         <th>Keterangan</th>
                         <th colspan='2'>
                             <div align="center">Aksi</div>
@@ -22,6 +23,7 @@
                             <td><?php echo $i++; ?></td>
                             <td><?php echo $item->kd_model; ?></td>
                             <td><?php echo $item->nama_model; ?></td>
+                            <td><?php echo $item->jml_produk; ?></td>
                             <td><?php echo $item->deskripsi; ?></td>
                             <td width="50">
                                 <button data-kode="<?php echo $item->kd_model; ?>" class="btn btn-primary btn-xs btn-edit">
