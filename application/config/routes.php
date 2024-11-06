@@ -3,7 +3,7 @@ allowed');
 $route['default_controller'] = "home";
 $route['login'] = 'home/login';
 $route['login_failure'] = 'home/login';
-$route['dashboard'] = 'home';
+$route['dashboard'] = 'home/index';
 $route['item'] = 'newitem';
 $route['model'] = 'stock';
 $route['proses'] = 'mesin';
