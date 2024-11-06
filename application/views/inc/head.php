@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>PT. Ujung Berung</title>
+	<meta charset="UTF-8">
+	<title>PT. Ujung Berung </title>
 
-    <!-- Bootstrap 3.0.2 -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <!-- Font Awesome -->
-    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <!-- Ionicons -->
-    <link href="css/ionicons.min.css" rel="stylesheet" type="text/css">
-    <!-- Theme style -->
-    <link href="css/AdminLTE.css" rel="stylesheet" type="text/css">
+	<meta content='width=device-width, initial-scale=1, maximum-scale=1,
+user-scalable=no' name='viewport'>
+	<!-- bootstrap 3.0.2 -->
+	<link href="<?= base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet" type="text/css" />
+	<!-- font Awesome -->
+	<link href="<?= base_url('assets/css/font-awesome.min.css') ?>" rel="stylesheet" type="text/css"
+	/>
+	<!-- Ionicons -->
+	<link href="<?= base_url('assets/css/ionicons.min.css') ?>" rel="stylesheet" type="text/css" />
+
+	<!-- Theme style -->
+	<link href="<?= base_url('assets/css/AdminLTE.css') ?>" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 </body>
-
 </html>
